@@ -5,14 +5,26 @@ var Greeter = React.createClass({
       message: 'd ja'
     };
   },
+  onButtonClick: function(event) {
+    event.preventDefault(); // prevent page refresh
+
+    var name = this.refs.zxcv.value;
+    alert(name);
+  },
   render: function () {
-    var asdf = this.props.name;
+    var name = this.props.name;
     var messageProp = this.props.message;
 
     return (
       <div>
-        <h1>Hello {asdf}!</h1>
+        <h1>Hello {name}!</h1>
         <p>{messageProp + '!!'}</p>
+
+      <form onSubmit={this.onButtonClick}>
+        <input type="text" ref="zxcv" />
+        <button>Set Name</button>
+      </form>
+
       </div>
     );
   }
