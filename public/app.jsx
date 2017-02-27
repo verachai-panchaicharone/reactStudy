@@ -5,14 +5,30 @@ var Greeter = React.createClass({
       message: 'd ja'
     };
   },
+  getInitialState: function () {
+    return {
+        name: this.props.name
+    };
+  },
   onButtonClick: function(event) {
     event.preventDefault(); // prevent page refresh
 
-    var name = this.refs.zxcv.value;
-    alert(name);
+    var nameRef = this.refs.zxcv;
+    var name = nameRef.value;
+    nameRef.value = '';
+    var newNameValue = this.props.name;
+
+    if (typeof name === 'string' && name.length > 0) {
+      newNameValue = name;
+    }
+
+    // To update the state of [name] and render dom again (only a part that dependency).
+    this.setState({
+      name: newNameValue
+    });
   },
   render: function () {
-    var name = this.props.name;
+    var name = this.state.name;
     var messageProp = this.props.message;
 
     return (
