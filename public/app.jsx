@@ -1,18 +1,29 @@
 var GreeterMessage = React.createClass({
     render: function () {
+      var name = this.props.name;
+      var message = this.props.message;
       return (
-        <div>
-            <h1>Some H1</h1>
-            <p>Some paragraph</p>
+          <div>
+            <h1>Hello {name} !!</h1>
+            <p>{message}</p>
           </div>
       );
     }
 });
 
 var GreeterForm = React.createClass({
+    onFormSubmit: function (e) {
+        e.preventDefault();
+
+        var name = this.refs.zxcv.value;
+        if(name.length > 0) {
+          this.refs.zxcv.value = '';
+          this.props.onNewName(name);
+        }
+    },
     render: function() {
       return (
-        <form>
+        <form onSubmit={this.onFormSubmit}>
           <input type="text" ref="zxcv" />
           <button>Set Name</button>
         </form>
@@ -32,21 +43,9 @@ var Greeter = React.createClass({
         name: this.props.name
     };
   },
-  onButtonClick: function(event) {
-    event.preventDefault(); // prevent page refresh
-
-    var nameRef = this.refs.zxcv;
-    var name = nameRef.value;
-    nameRef.value = '';
-    var newNameValue = this.props.name;
-
-    if (typeof name === 'string' && name.length > 0) {
-      newNameValue = name;
-    }
-
-    // To update the state of [name] and render dom again (only a part that dependency).
+  handleNewName: function(name) {
     this.setState({
-      name: newNameValue
+      name: name
     });
   },
   render: function () {
@@ -55,17 +54,9 @@ var Greeter = React.createClass({
 
     return (
       <div>
-        <h1>Hello {name}!</h1>
-        <p>{messageProp + '!!'}</p>
 
-        <GreeterMessage />
-
-        <form onSubmit={this.onButtonClick} >
-          <input type="text" ref="zxcv" />
-          <button>Set Name</button>
-        </form>
-
-        <GreeterForm />
+        <GreeterMessage name={name} message={messageProp} />
+        <GreeterForm onNewName={this.handleNewName} />
 
       </div>
     );
