@@ -47,6 +47,7 @@ var Greeter = React.createClass({
     this.setState({
       name: name
     });
+    this.props.message = 'something new';
   },
   render: function () {
     var name = this.state.name;
